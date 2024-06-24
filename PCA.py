@@ -11,7 +11,13 @@ class PCA:
         self.pca = pca(self.n_components)
         self.explained_variance = None
         self.cumulative_variance = None
+        self.data_reconstructed = None
         self.scaler = StandardScaler()
+
+    def print_original_data(self):
+        # Print the PCA data
+        data_df = pd.DataFrame(data=self.data, columns=[f'Joint {i+1}' for i in range(self.data.shape[1])])
+        print(data_df.head())
 
     def pca_calculation(self):
         # Standardizing the data
@@ -25,9 +31,10 @@ class PCA:
 
         # Cumulative explained variance
         self.cumulative_variance = np.cumsum(self.explained_variance)
+        return self.pca_result
 
-    def plot(self):
-        # Plotting explained variance
+    def pca_plot(self):
+        # Plotting PCAs
         plt.figure(figsize=(8, 6))
         plt.plot(range(1, self.n_components + 1), self.explained_variance, marker='o', label='Explained Variance')
         plt.plot(range(1, self.n_components + 1 ), self.cumulative_variance, marker='s', label='Cumulative Variance')
@@ -38,9 +45,32 @@ class PCA:
         plt.grid(True)
         plt.show()
 
-    def print_data(self):
+    def print_pca_data(self):
         # Print the PCA data
         pca_df = pd.DataFrame(data=self.pca_result, columns=[f'PC{i+1}' for i in range(self.n_components)])
         print(pca_df.head())
         print('Explained variance ratio by each component:', self.explained_variance)
         print('Cumulative explained variance ratio:', self.cumulative_variance)
+
+    def pca__inverse_calculation(self):
+        # Inverse Transform
+        self.data_reconstructed = self.pca.inverse_transform(self.pca_result)
+        self.data_reconstructed = self.scaler.inverse_transform(self.data_reconstructed)
+        return self.data_reconstructed
+    
+    def inverse_pca_plot(self):
+        # Plotting original vs reconstructed for the first joint
+        plt.figure(figsize=(10, 6))
+        plt.plot(self.data[:, 0], label='Original Joint 1')
+        plt.plot(self.data_reconstructed[:, 0], label='Reconstructed Joint 1', linestyle='--')
+        plt.xlabel('Time Step')
+        plt.ylabel('Joint Angle')
+        plt.title('Original vs Reconstructed Joint Angle for Joint 1')
+        plt.legend(loc='best')
+        plt.grid(True)
+        plt.show()
+
+    def print_reconstructed_data(self):
+        # Print the PCA data
+        reconstructed_df = pd.DataFrame(data=self.data_reconstructed, columns=[f'Joint {i+1}' for i in range(self.data_reconstructed.shape[1])])
+        print(reconstructed_df.head())

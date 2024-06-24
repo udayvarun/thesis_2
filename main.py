@@ -8,8 +8,22 @@ data = dataset_extractor(file_path)
 n_components = 3
 
 pca = PCA(data, n_components)
-pca.pca_calculation()
-pca.plot()
-pca.print_data()
 
-map_to_robot(data)
+# Print Original data with joint angles
+pca.print_original_data()
+
+pca.pca_calculation()
+pca.pca_plot()
+# Print PCA data
+pca.print_pca_data()
+
+inverse_result = pca.pca__inverse_calculation()
+pca.inverse_pca_plot()
+# Print Reconstructed data with joint angles
+pca.print_reconstructed_data()
+
+# Map original data
+# map_to_robot(data)
+
+# Map inverse PCA data
+map_to_robot(inverse_result)
