@@ -60,14 +60,16 @@ class PCA:
     
     def inverse_pca_plot(self):
         # Plotting original vs reconstructed for the first joint
-        plt.figure(figsize=(10, 6))
-        plt.plot(self.data[:, 0], label='Original Joint 1')
-        plt.plot(self.data_reconstructed[:, 0], label='Reconstructed Joint 1', linestyle='--')
+        fig, axes = plt.subplots(7, figsize=(15,30), sharex=True)
+        plt.suptitle('Original vs Reconstructed Joint Angle for Joints')
+        for i, ax in enumerate(axes.flatten()):
+            ax.plot(self.data[:, i], label=f'Original Joint {i+1}')
+            ax.plot(self.data_reconstructed[:, i], label=f'Reconstructed Joint {i+1}', linestyle='--')
+            ax.legend(loc='best')
+            ax.grid(True)
         plt.xlabel('Time Step')
         plt.ylabel('Joint Angle')
-        plt.title('Original vs Reconstructed Joint Angle for Joint 1')
-        plt.legend(loc='best')
-        plt.grid(True)
+        
         plt.show()
 
     def print_reconstructed_data(self):
