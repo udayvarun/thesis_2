@@ -31,7 +31,7 @@ class PCA:
 
         # Cumulative explained variance
         self.cumulative_variance = np.cumsum(self.explained_variance)
-        return self.pca_result
+        return self.pca.components_
 
     def pca_plot(self):
         # Plotting PCAs
