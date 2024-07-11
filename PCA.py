@@ -22,7 +22,7 @@ class PCA:
     def pca_calculation(self):
         # Standardizing the data
         self.data_standardized = self.scaler.fit_transform(self.data)
-
+    
         # Performing PCA
         self.pca_result = self.pca.fit_transform(self.data_standardized)
 
@@ -31,7 +31,7 @@ class PCA:
 
         # Cumulative explained variance
         self.cumulative_variance = np.cumsum(self.explained_variance)
-        return self.pca.components_
+        return self.pca_result
 
     def pca_plot(self):
         # Plotting PCAs
@@ -51,8 +51,11 @@ class PCA:
         print(pca_df.head())
         print('Explained variance ratio by each component:', self.explained_variance)
         print('Cumulative explained variance ratio:', self.cumulative_variance)
+    
+    def get_pca_components(self):
+        return self.pca.components_
 
-    def pca__inverse_calculation(self):
+    def pca_inverse_calculation(self):
         # Inverse Transform
         self.data_reconstructed = self.pca.inverse_transform(self.pca_result)
         self.data_reconstructed = self.scaler.inverse_transform(self.data_reconstructed)
