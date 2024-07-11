@@ -4,6 +4,8 @@ from scipy.interpolate import interp1d
 from sklearn.decomposition import PCA
 import numpy as np
 import os
+import matplotlib.pyplot as plt
+
 
 class DataSet:
     def __init__(self, folder, side):
@@ -38,15 +40,30 @@ class DataSet:
         final_data = pca.fit_transform(average_data)
 
         # Output the final set
-        print(final_data.shape)
         return final_data
     
     def single_dataset(self):
+        data = []
         for file in os.listdir(self.folder):
             if file.endswith(".xml"):
-                data = self.side(os.path.join(self.folder, file))
-                break
+                data.append(self.side(os.path.join(self.folder, file)))
         return data
+    
+    def plot_data(self):
+        data = self.single_dataset()
+        data_pca = self.dataset_pca()
+        # Plotting original vs reconstructed for the first joint
+        fig, axes = plt.subplots(7, figsize=(15,30), sharex=True)
+        plt.suptitle('Single vs PCA Joint Angle for Joints')
+        for i, ax in enumerate(axes.flatten()):
+            for d in data:
+                ax.plot(d[:, i], label=f'Single Joint {i+1}')
+            ax.plot(data_pca[:, i], label=f'PCA Joint {i+1}', linestyle='--')
+            ax.legend(loc='best')
+            ax.grid(True)
+        plt.xlabel('Time Step')
+        plt.ylabel('Joint Angle')
+        plt.show()
 
     def dataset_extractor_right(self, file_path):
         root = ET.parse(file_path).getroot()

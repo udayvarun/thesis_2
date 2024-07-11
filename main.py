@@ -12,8 +12,10 @@ folder = r".\DataSets\two_waves"
 # side = "left"
 side = "right"
 
-# data = DataSet(folder).dataset_pca()
-data = DataSet(folder, side).single_dataset()
+# data = DataSet(folder, side).dataset_pca()
+# DataSet(folder, side).plot_data()
+
+data = DataSet(folder, side).single_dataset()[0]
 
 
 n_components = 3

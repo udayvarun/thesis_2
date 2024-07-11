@@ -72,7 +72,6 @@ class PCA:
             ax.grid(True)
         plt.xlabel('Time Step')
         plt.ylabel('Joint Angle')
-        
         plt.show()
 
     def print_reconstructed_data(self):
