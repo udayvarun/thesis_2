@@ -25,7 +25,7 @@ pca = PCA(data, n_components)
 pca.print_original_data()
 
 # Calculation of PCA
-pca.pca_calculation()
+pca_components = pca.pca_calculation()
 pca.pca_plot()
 
 # Print PCA data
@@ -43,4 +43,4 @@ pca.print_reconstructed_data()
 # map_to_robot(data)
 
 # Map inverse PCA data
-map_to_robot(inverse_result)
+map_to_robot(pca_components, data, inverse_result)
