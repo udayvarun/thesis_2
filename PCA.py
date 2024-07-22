@@ -65,8 +65,11 @@ class PCA:
         # Plotting original vs reconstructed for the first joint
         fig, axes = plt.subplots(7, figsize=(15,30), sharex=True)
         plt.suptitle('Original vs Reconstructed Joint Angle for Joints')
+        joint_limits= [(2.8973,-2.8973), (1.7628,-1.7628), (2.8973,-2.8973),(-0.0698, -3.0718), (2.8973, -2.8973), (3.7525,-0.0175), (2.8973,2.8973)]
         for i, ax in enumerate(axes.flatten()):
             ax.plot(self.data[:, i], label=f'Original Joint {i+1}')
+            # ax.plot(joint_limits[i][0], label = "Upper Joint Limit")
+            # ax.plot(joint_limits[i][1], label = "Lower Joint Limit")
             ax.plot(self.data_reconstructed[:, i], label=f'Reconstructed Joint {i+1}', linestyle='--')
             ax.legend(loc='best')
             ax.grid(True)
