@@ -18,7 +18,7 @@ side = "right"
 data = DataSet(folder, side).single_dataset()[0]
 
 
-n_components = 3
+n_components = 1
 pca = PCA(data, n_components)
 
 # Print Original data with joint angles

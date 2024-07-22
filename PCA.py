@@ -13,6 +13,14 @@ class PCA:
         self.cumulative_variance = None
         self.data_reconstructed = None
         self.scaler = StandardScaler()
+        self.q1_limit = (2.8973,-2.8973)
+        self.q2_limit = (1.7628,-1.7628)
+        self.q3_limit = (2.8973,-2.8973)
+        self.q4_limit = (-0.0698, -3.0718)
+        self.q5_limit = (2.8973,-2.8973)
+        self.q6_limit = (3.7525,-0.0175)
+        self.q7_limit = (2.8973,-2.8973)
+
 
     def print_original_data(self):
         # Print the PCA data
@@ -65,11 +73,11 @@ class PCA:
         # Plotting original vs reconstructed for the first joint
         fig, axes = plt.subplots(7, figsize=(15,30), sharex=True)
         plt.suptitle('Original vs Reconstructed Joint Angle for Joints')
-        joint_limits= [(2.8973,-2.8973), (1.7628,-1.7628), (2.8973,-2.8973),(-0.0698, -3.0718), (2.8973, -2.8973), (3.7525,-0.0175), (2.8973,2.8973)]
+        joint_limits= [self.q3_limit, self.q2_limit, self.q1_limit, self.q5_limit, self.q4_limit, self.q6_limit, self.q7_limit]
         for i, ax in enumerate(axes.flatten()):
             ax.plot(self.data[:, i], label=f'Original Joint {i+1}')
-            # ax.plot(joint_limits[i][0], label = "Upper Joint Limit")
-            # ax.plot(joint_limits[i][1], label = "Lower Joint Limit")
+            ax.hlines(y=joint_limits[i][0], xmin = 0, xmax=self.data.shape[0], linewidth=1, color='r', linestyle='--')
+            ax.hlines(y=joint_limits[i][1], xmin = 0, xmax=self.data.shape[0], linewidth=1, color='r', linestyle='--')
             ax.plot(self.data_reconstructed[:, i], label=f'Reconstructed Joint {i+1}', linestyle='--')
             ax.legend(loc='best')
             ax.grid(True)
