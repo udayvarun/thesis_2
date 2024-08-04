@@ -6,7 +6,6 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-
 class DataSet:
     def __init__(self, folder, side):
         self.folder = folder
@@ -115,18 +114,3 @@ class DataSet:
             interp_func = interp1d(time_points, array[:, i], kind='linear', fill_value="extrapolate")
             interpolated_array[:, i] = interp_func(common_time)
         return interpolated_array
-    
-    def joint_angles_plot(data ,message):
-        joint_limits = [(2.8973,-2.8973), (1.7628,-1.7628), (2.8973,-2.8973), (-0.0698, -3.0718), (2.8973,-2.8973), (3.7525,-0.0175), (2.8973,-2.8973)]
-        # Plotting original joint angles
-        fig, axes = plt.subplots(7, figsize=(15,30), sharex=True)
-        plt.suptitle(f'Original Joint Angles {message}')
-        for i, ax in enumerate(axes.flatten()):
-            ax.plot(data[:, i], label=f'Original Joint {i+1}', color = 'b')
-            ax.hlines(y=joint_limits[i][0], xmin = 0, xmax=data.shape[0], linewidth=1, color='r', linestyle='--')
-            ax.hlines(y=joint_limits[i][1], xmin = 0, xmax=data.shape[0], linewidth=1, color='r', linestyle='--')
-            ax.legend(loc='best')
-            ax.grid(True)
-        plt.xlabel('Time Step')
-        plt.ylabel('Joint Angle')
-        plt.show()
