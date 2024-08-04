@@ -1,9 +1,8 @@
 from PCA import PCA
+import numpy as np
+from dataset_manipulator import dataset_manipulator
 from map_to_robot import map_to_robot
 from dataset_extractor import DataSet
-
-# file = r".\DataSets\two_waves\Trial_75.xml"
-# data = dataset_extractor(file)
 
 folder = r".\DataSets\two_waves"
 # folder = r".\DataSets\hand_to_mouth"
@@ -17,9 +16,16 @@ side = "right"
 
 data = DataSet(folder, side).single_dataset()[0]
 
+# Manipulate joint angles
+data_reconstructed = []
+for q in data:
+    data_reconstructed.append([q[2],q[1],q[0],q[4],q[3],q[5],q[6]])
+data_reconstructed = np.array(data_reconstructed)
+
+data_reconstructed = dataset_manipulator(data_reconstructed)
 
 n_components = 1
-pca = PCA(data, n_components)
+pca = PCA(data_reconstructed, n_components)
 
 # Print Original data with joint angles
 pca.print_original_data()
@@ -43,4 +49,4 @@ pca.print_reconstructed_data()
 # map_to_robot(data)
 
 # Map inverse PCA data
-map_to_robot(pca_components, data, inverse_result)
+map_to_robot(inverse_result)
