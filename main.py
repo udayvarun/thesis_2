@@ -1,6 +1,6 @@
 from PCA import PCA
 import numpy as np
-from dataset_manipulator import dataset_manipulator
+from dataset_manipulator import *
 from map_to_robot import map_to_robot
 from dataset_extractor import DataSet
 
@@ -17,15 +17,11 @@ side = "right"
 data = DataSet(folder, side).single_dataset()[0]
 
 # Manipulate joint angles
-data_reconstructed = []
-for q in data:
-    data_reconstructed.append([q[2],q[1],q[0],q[4],q[3],q[5],q[6]])
-data_reconstructed = np.array(data_reconstructed)
-
-data_reconstructed = dataset_manipulator(data_reconstructed)
+data_reconstructed = dataset_manipulator_without_offset(data)
+data_offset = dataset_manipulator_with_offset(data_reconstructed)
 
 n_components = 1
-pca = PCA(data_reconstructed, n_components)
+pca = PCA(data_offset, n_components)
 
 # Print Original data with joint angles
 pca.print_original_data()
