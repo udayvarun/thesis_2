@@ -10,7 +10,9 @@ folders.append(r".\DataSets\hand_through_hair_right_arm")
 
 data = []
 for folder in folders:
-    data.extend(DataSet(folder, "right").single_dataset()[0])
+    files = DataSet(folder, "right").single_dataset()
+    for file in files:
+        data.extend(file)
 
 data = np.array(data)
 dataset_manipulator_without_offset(data)
