@@ -66,17 +66,21 @@ class DataSet:
 
     def dataset_extractor_right(self, file_path):
         root = ET.parse(file_path).getroot()
+
+        joint_order = root.find(".//JointOrder")
+        joint_names = [joint.get('name') for joint in joint_order.findall('Joint')]
+
         data = []
         for motion_frame in root.findall('Motion/MotionFrames/MotionFrame'):
             time_step = motion_frame.find('Timestep').text
             joint_positions = motion_frame.find('JointPosition').text.split(" ")
-            RSx_joint = float(joint_positions[37])
-            RSy_joint = float(joint_positions[38])
-            RSz_joint = float(joint_positions[39])
-            RWx_joint = float(joint_positions[40])
-            RWy_joint = float(joint_positions[41])
-            REx_joint = float(joint_positions[31])
-            REz_joint = float(joint_positions[32])
+            RSx_joint = float(joint_positions[joint_names.index('RSx_joint')])
+            RSy_joint = float(joint_positions[joint_names.index('RSy_joint')])
+            RSz_joint = float(joint_positions[joint_names.index('RSz_joint')])
+            RWx_joint = float(joint_positions[joint_names.index('RWx_joint')])
+            RWy_joint = float(joint_positions[joint_names.index('RWy_joint')])
+            REx_joint = float(joint_positions[joint_names.index('REx_joint')])
+            REz_joint = float(joint_positions[joint_names.index('REz_joint')])
             RS_joint = np.array([RSx_joint, RSy_joint, RSz_joint])
             RE_joint = np.array([REx_joint, REz_joint])
             RW_joint = np.array([RWx_joint, RWy_joint])
@@ -87,20 +91,24 @@ class DataSet:
     
     def dataset_extractor_left(self, file_path):
         root = ET.parse(file_path).getroot()
+
+        joint_order = root.find(".//JointOrder")
+        joint_names = [joint.get('name') for joint in joint_order.findall('Joint')]
+
         data = []
         for motion_frame in root.findall('Motion/MotionFrames/MotionFrame'):
             time_step = motion_frame.find('Timestep').text
             joint_positions = motion_frame.find('JointPosition').text.split(" ")
-            LSx_joint = float(joint_positions[21])
-            LSy_joint = float(joint_positions[22])
-            LSz_joint = float(joint_positions[23])
-            LWx_joint = float(joint_positions[24])
-            LWy_joint = float(joint_positions[25])
-            LEx_joint = float(joint_positions[15])
-            LEz_joint = float(joint_positions[16])
-            RS_joint = np.array([LSx_joint, LSy_joint, LSz_joint])
-            RE_joint = np.array([LEx_joint, LEz_joint])
-            RW_joint = np.array([LWx_joint, LWy_joint])
+            LSx_joint = float(joint_positions[joint_names.index('LSx_joint')])
+            LSy_joint = float(joint_positions[joint_names.index('LSy_joint')])
+            LSz_joint = float(joint_positions[joint_names.index('LSz_joint')])
+            LWx_joint = float(joint_positions[joint_names.index('LWx_joint')])
+            LWy_joint = float(joint_positions[joint_names.index('LWy_joint')])
+            LEx_joint = float(joint_positions[joint_names.index('LEx_joint')])
+            LEz_joint = float(joint_positions[joint_names.index('LEz_joint')])
+            LS_joint = np.array([LSx_joint, LSy_joint, LSz_joint])
+            LE_joint = np.array([LEx_joint, LEz_joint])
+            LW_joint = np.array([LWx_joint, LWy_joint])
 
             data.append([LSx_joint, LSy_joint, LSz_joint, LEx_joint, LEz_joint, LWx_joint, LWy_joint])
 
