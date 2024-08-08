@@ -1,7 +1,7 @@
 from PCA import PCA
-from dataset_manipulator import *
 from dataset_extractor import DataSet
 import pickle as pk
+import numpy as np
 
 folders = []
 folders.append(r".\DataSets\two_waves")
@@ -15,7 +15,7 @@ for folder in folders:
         data.extend(file)
 
 data = np.array(data)
-dataset_manipulator_without_offset(data)
+DataSet.joint_angles_plot(data)
 
 n_components = 7
 pca = PCA(data, n_components)
