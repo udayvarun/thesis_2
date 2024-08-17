@@ -3,6 +3,7 @@ from map_to_robot import map_to_robot
 import pickle as pk
 import numpy as np
 from dataset_extractor import DataSet
+from forward_kinematics import forward_kinematics as fk
 
 pca_reload = pk.load(open("pca.pkl",'rb'))
 pca_components = pca_reload.pca.components_
@@ -16,5 +17,7 @@ q_optimal = min.minimize_function(initial_position, goal_position)
 min.plot_variables()
 
 DataSet.joint_angles_plot(q_optimal)
+
+print(fk(goal_position))
 
 map_to_robot(q_optimal)
