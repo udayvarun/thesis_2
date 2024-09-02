@@ -3,11 +3,11 @@ from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
 class minimize_dataset:
-    def __init__(self, S):
+    def __init__(self, S, T):
         # Synergy matrix: Contains PCA components
         self.S = np.transpose(S)
         ## Parameters
-        self.T = 100  # Steps in time horizon
+        self.T = T  # Steps in time horizon
         self.nu = 7 # Number of PCA components used
         self.nq = 7 # Number of robot joints
         # Initial joint position

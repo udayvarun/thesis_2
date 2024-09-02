@@ -8,7 +8,7 @@ from forward_kinematics import forward_kinematics as fk
 pca_reload = pk.load(open("pca.pkl",'rb'))
 pca_components = pca_reload.pca.components_
 
-min = minimize_dataset(pca_components)
+min = minimize_dataset(pca_components, 100)
 
 initial_position =  np.array([1.0, 0.5, 0.6, 0.4, 0.3, 0.1, 0.0]) 
 goal_position = np.array([1.2, 1.2, 1.2, -1.2, 1.2, 1.2, 1.2])
