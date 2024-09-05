@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
+import roboticstoolbox as rtb
 
 class minimize_dataset:
     def __init__(self, S, T):
@@ -11,9 +12,10 @@ class minimize_dataset:
         self.nu = 7 # Number of PCA components used
         self.nq = 7 # Number of robot joints
         # Initial joint position
-        self.q0 = np.array([1.0, 0.5, 0.6, 0.4, 0.3, 0.1, 0.0])  
+        self.q0 = np.array([1.0, 0.5, 0.6, -0.5, 0.3, 0.1, 0.0])  
         # Desired goal position in joint space
-        self.q_goal = np.array([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1])
+        self.q_goal = np.array([0.1, 0.1, 0.1, -1.0, 0.1, 0.1, 0.1])
+        self.goal_position = np.array([0.135,0.03337,0.8228])
     
     # Define the cost function
     def cost_function(self, u):
@@ -29,10 +31,17 @@ class minimize_dataset:
             if t < self.T-1:
                 # Costs for change in u
                 cost += np.sum(2.0*(u[t+1] - u[t])**2)
-        
+
+        # Initialize roboticstoolbox model
+        panda_rtb = rtb.models.Panda()
+        # Forward kinematics calculation
+        fk_final = panda_rtb.fkine(q[-1])
+        fk_goal =panda_rtb.fkine(self.q_goal)
+        self.final_position = np.array(fk_final.data[0][0:3,3])
+        self.goal_position = np.array(fk_goal.data[0][0:3,3])
         # Mayer term
         # Costs for deviation to goal position (Here: joint positions)
-        cost += np.sum( (q[-1] - self.q_goal)**2 ) 
+        cost += np.sum( (self.final_position - self.goal_position)**2 ) 
         return cost
 
     # Define the constraint that the last control input must be zero (start with zero velocity)
