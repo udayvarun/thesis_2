@@ -7,7 +7,7 @@ from panda_py import controllers
 import roboticstoolbox as rtb
 import spatialmath as sm
 
-class Panda:
+class Panda2:
     def __init__(self):
         self.hostname = "192.168.1.101" 
     
@@ -31,7 +31,7 @@ class Panda:
     def forward_kinematics(self, q):
         return self.panda_rtb.fkine(q)
     
-    def robot_mapper(self,data, runtime):
+    def robot_mapper(self, runtime):
         self.panda.move_to_start()
         ctrl = controllers.JointPosition()
     
@@ -51,7 +51,10 @@ class Panda:
         v=0
         with self.panda.create_context(frequency=1e2, max_runtime=runtime) as ctx:
             while ctx.ok():
-                print(data[v])
-                ctrl.set_control(data[v])
+                qd = start_position.copy()
+                qd[0] += 0.4 * np.sin(ctrl.get_time())
+                print(qd[0], v)
                 v+=1
+                ctrl.set_control(qd)
+
 

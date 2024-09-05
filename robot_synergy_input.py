@@ -15,7 +15,6 @@ class minimize_dataset:
         self.q0 = np.array([1.0, 0.5, 0.6, -0.5, 0.3, 0.1, 0.0])  
         # Desired goal position in joint space
         self.q_goal = np.array([0.1, 0.1, 0.1, -1.0, 0.1, 0.1, 0.1])
-        self.goal_position = np.array([0.135,0.03337,0.8228])
     
     # Define the cost function
     def cost_function(self, u):
@@ -37,6 +36,7 @@ class minimize_dataset:
         # Forward kinematics calculation
         fk_final = panda_rtb.fkine(q[-1])
         fk_goal =panda_rtb.fkine(self.q_goal)
+        print(type(fk_goal))
         self.final_position = np.array(fk_final.data[0][0:3,3])
         self.goal_position = np.array(fk_goal.data[0][0:3,3])
         # Mayer term
