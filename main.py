@@ -3,12 +3,13 @@ from map_to_robot import map_to_robot
 import pickle as pk
 import numpy as np
 from dataset_extractor import DataSet
+from interpolate_array import interpolate
 from real_robot_mapper import Panda
 from real_robot_mapper_example import Panda2
 
 pca_reload = pk.load(open("pca.pkl",'rb'))
 pca_components = pca_reload.pca.components_
-steps = 500 
+steps = 100
 min = minimize_dataset(pca_components, steps)
 
 #initial_position =  np.array([1.0, 0.5, 0.6, -0.4, 0.3, 0.1, 0.0])
@@ -20,10 +21,11 @@ q_optimal = min.minimize_function(initial_position, goal_position)
 min.plot_variables()
 
 DataSet.joint_angles_plot(q_optimal)
-
+new_q_optimal = interpolate(q_optimal, 500)
+DataSet.joint_angles_plot(new_q_optimal)
 #map_to_robot(q_optimal)
 
-Panda().robot_mapper(q_optimal,5)
+Panda().robot_mapper(new_q_optimal,5)
 joint_postion = Panda().get_robot_position()
 cartesian_position = Panda().forward_kinematics(joint_postion)
 
