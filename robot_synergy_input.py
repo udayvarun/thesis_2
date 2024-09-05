@@ -15,6 +15,8 @@ class minimize_dataset:
         self.q0 = np.array([1.0, 0.5, 0.6, -0.5, 0.3, 0.1, 0.0])  
         # Desired goal position in joint space
         self.q_goal = np.array([0.1, 0.1, 0.1, -1.0, 0.1, 0.1, 0.1])
+        # Initialize roboticstoolbox model
+        self.panda_rtb = rtb.models.Panda()
     
     # Define the cost function
     def cost_function(self, u):
@@ -31,14 +33,10 @@ class minimize_dataset:
                 # Costs for change in u
                 cost += np.sum(2.0*(u[t+1] - u[t])**2)
 
-        # Initialize roboticstoolbox model
-        panda_rtb = rtb.models.Panda()
         # Forward kinematics calculation
-        fk_final = panda_rtb.fkine(q[-1])
-        fk_goal =panda_rtb.fkine(self.q_goal)
-        print(type(fk_goal))
+        fk_final = self.panda_rtb.fkine(q[-1])
         self.final_position = np.array(fk_final.data[0][0:3,3])
-        self.goal_position = np.array(fk_goal.data[0][0:3,3])
+        
         # Mayer term
         # Costs for deviation to goal position (Here: joint positions)
         cost += np.sum( (self.final_position - self.goal_position)**2 ) 
@@ -59,6 +57,9 @@ class minimize_dataset:
             self.q0 = intial_position
         if goal_position is not None:
             self.q_goal = goal_position
+
+        fk_goal =self.panda_rtb.fkine(self.q_goal)
+        self.goal_position = np.array(fk_goal.data[0][0:3,3])
         # Initial guess for the control inputs
         self.u_initial = np.zeros((self.T, self.nu))
 
