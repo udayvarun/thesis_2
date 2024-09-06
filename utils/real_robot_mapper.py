@@ -49,7 +49,7 @@ class Panda:
 
         print(self.forward_kinematics(self.panda.q))
         v=0
-        with self.panda.create_context(frequency=1e2, max_runtime=runtime) as ctx:
+        with self.panda.create_context(frequency=5e2, max_runtime=runtime) as ctx:
             while ctx.ok():
                 ctrl.set_control(data[v])
                 v+=1

@@ -11,15 +11,15 @@ min = minimize_dataset(pca_components, 50)
 
 initial_position = np.array([-0.00867367069998331, -0.7859290811555426, 0.0014189809690487837, -2.356400179186334, 0.003559221795097906, 1.5683314154592496, 0.7770764079358842])
 goal_position = np.array([-0.004098935386401984, 1.7310226486148363, -2.86264634947962, -0.3970686869768334, -0.4141652220288912, 3.2029244636332677, 0.8809729020759841])
-
+#goal_position_2 = np.array()
 q_optimal = min.minimize_function(initial_position, goal_position)
 min.plot_variables()
 
 DataSet.joint_angles_plot(q_optimal)
-new_q_optimal = interpolate(q_optimal, 500)
+new_q_optimal = interpolate(q_optimal, 25000)
 DataSet.joint_angles_plot(new_q_optimal)
 
-Panda().robot_mapper(new_q_optimal,5)
+Panda().robot_mapper(new_q_optimal,50)
 joint_postion = Panda().get_robot_position()
 cartesian_position = Panda().forward_kinematics(joint_postion)
 

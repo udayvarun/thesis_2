@@ -39,7 +39,8 @@ class minimize_dataset:
         
         # Mayer term
         # Costs for deviation to goal position (Here: joint positions)
-        cost += np.sum( (self.final_position - self.goal_position)**2 ) 
+        cost += np.sum( (fk_final - self.fk_goal)**2 ) 
+        print (cost)
         return cost
 
     # Define the constraint that the last control input must be zero (start with zero velocity)
@@ -51,15 +52,23 @@ class minimize_dataset:
     def start_control_constraint(self, u):
         u = u.reshape(self.T, self.nu)
         return u[0]
-
+    
+    def upper_joint_constraint(self):
+        q = [2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973]
+        return q
+        
+    def lower_joint_constraint(self):
+        q = [-2.8973, -1.7628, -2.8973, -3.0718,-2.8973, -0.0175, 2.8973]
+        return q
+    
     def minimize_function(self, intial_position = None, goal_position = None ):
         if intial_position is not None:
             self.q0 = intial_position
         if goal_position is not None:
             self.q_goal = goal_position
 
-        fk_goal =self.panda_rtb.fkine(self.q_goal)
-        self.goal_position = np.array(fk_goal.data[0][0:3,3])
+        self.fk_goal =self.panda_rtb.fkine(self.q_goal)
+        self.goal_position = np.array(self.fk_goal.data[0][0:3,3])
         # Initial guess for the control inputs
         self.u_initial = np.zeros((self.T, self.nu))
 
