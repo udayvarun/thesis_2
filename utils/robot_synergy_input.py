@@ -32,14 +32,9 @@ class minimize_dataset:
             if t < self.T-1:
                 # Costs for change in u
                 cost += np.sum(2.0*(u[t+1] - u[t])**2)
-
-        # Forward kinematics calculation
-        fk_final = self.panda_rtb.fkine(q[-1])
-        self.final_position = np.array(fk_final.data[0][0:3,3])
-        
         # Mayer term
         # Costs for deviation to goal position (Here: joint positions)
-        cost += np.sum( (fk_final - self.fk_goal)**2 ) 
+        cost += np.sum( (q[-1] - self.q_goal)**2 ) 
         print (cost)
         return cost
 
@@ -67,8 +62,6 @@ class minimize_dataset:
         if goal_position is not None:
             self.q_goal = goal_position
 
-        self.fk_goal =self.panda_rtb.fkine(self.q_goal)
-        self.goal_position = np.array(self.fk_goal.data[0][0:3,3])
         # Initial guess for the control inputs
         self.u_initial = np.zeros((self.T, self.nu))
 
