@@ -11,6 +11,8 @@ class minimize_dataset:
         self.T = T  # Steps in time horizon
         self.nu = 7 # Number of PCA components used
         self.nq = 7 # Number of robot joints
+        self.q_upper_limit = np.array([2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973])
+        self.q_lower_limit = np.array([-2.8973, -1.7628, -2.8973, -3.0718,-2.8973, -0.0175, 2.8973])
         # Initial joint position
         self.q0 = np.array([1.0, 0.5, 0.6, -0.5, 0.3, 0.1, 0.0])  
         # Desired goal position in joint space
@@ -53,13 +55,21 @@ class minimize_dataset:
         u = u.reshape(self.T, self.nu)
         return u[0]
     
-    def upper_joint_constraint(self):
-        q = [2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973]
-        return q
+    def upper_joint_constraint(self, u):
+        q = np.zeros((self.T+1, self.nq))
+        u = u.reshape((self.T, self.nu))
+        q[0] = self.q0
+        for t in range(self.T):
+            q[t+1] = q[t] + np.matmul(self.S, u[t])
+        return (self.q_upper_limit - q[1:]).flatten()
         
-    def lower_joint_constraint(self):
-        q = [-2.8973, -1.7628, -2.8973, -3.0718,-2.8973, -0.0175, 2.8973]
-        return q
+    def lower_joint_constraint(self, u):
+        q = np.zeros((self.T+1, self.nq))
+        u = u.reshape((self.T, self.nu))
+        q[0] = self.q0
+        for t in range(self.T):
+            q[t+1] = q[t] + np.matmul(self.S, u[t])
+        return (q[1:] - self.q_lower_limit).flatten()
     
     def minimize_function(self, intial_position = None, goal_position = None ):
         if intial_position is not None:
@@ -75,7 +85,9 @@ class minimize_dataset:
         ## Constraints (first and last control input should be zero, rate of change constraint)
         self.constraints = [
             {'type': 'eq', 'fun': self.start_control_constraint},
-            {'type': 'eq', 'fun': self.end_control_constraint}
+            {'type': 'eq', 'fun': self.end_control_constraint},
+            {'type': 'ineq', 'fun': self.upper_joint_constraint},
+            {'type': 'ineq', 'fun': self.lower_joint_constraint}
         ]
 
         ## Optimize
