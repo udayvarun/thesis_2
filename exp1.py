@@ -11,17 +11,21 @@ pca_components = pca_reload.pca.components_
 min = minimize_dataset(pca_components, 50)
 
 initial_position = np.array([-0.00867367069998331, -0.7859290811555426, 0.0014189809690487837, -2.356400179186334, 0.003559221795097906, 1.5683314154592496, 0.7770764079358842])
-goal_position = np.array([-0.004098935386401984, 1.7310226486148363, -2.86264634947962, -0.3970686869768334, -0.4141652220288912, 3.2029244636332677, 0.8809729020759841])
+#goal_position = np.array([-0.004098935386401984, 1.7310226486148363, -2.86264634947962, -0.3970686869768334, -0.4141652220288912, 3.2029244636332677, 0.8809729020759841])
 
 panda_rtb = rtb.models.Panda()
-fk_goal = panda_rtb.fkine(goal_position)
-fk_initial = panda_rtb.fkine(initial_position)
 
-ik_goal = panda_rtb.ikine_LM(fk_goal)
-ik_initial = panda_rtb.ikine_LM(fk_initial)
+goal = np.array([[0.1891, 0.1486, 0.9706, 0.9332],
+                 [-0.05766, 0.9885, -0.1401, -0.109],
+                 [-0.9803, -0.02948, 0.1955, 0.332],
+                 [0, 0, 0, 1]])
+
+goal_ik = panda_rtb.ikine_LM(goal)
+
+print(goal_ik.q)
 
 #goal_position_2 = np.array()
-q_optimal = min.minimize_function(ik_initial.q, ik_goal.q)
+q_optimal = min.minimize_function(initial_position, goal_ik.q)
 min.plot_variables()
 
 DataSet.joint_angles_plot(q_optimal)
