@@ -1,11 +1,7 @@
 import panda_py
 import numpy as np
-from panda_py import libfranka
-from panda_py import constants
 from panda_py import controllers
-
 import roboticstoolbox as rtb
-import spatialmath as sm
 
 class Panda:
     def __init__(self):
@@ -31,8 +27,10 @@ class Panda:
     def forward_kinematics(self, q):
         return self.panda_rtb.fkine(q)
     
-    def robot_mapper(self,data, runtime):
+    def move_to_start(self):
         self.panda.move_to_start()
+    
+    def robot_mapper(self,data, runtime):
         ctrl = controllers.JointPosition()
     
         self.panda.start_controller(ctrl)

@@ -42,7 +42,7 @@ class minimize_dataset:
 
         # Forward kinematics calculation
         fk_final = self.panda_rtb.fkine(q[-1])
-        self.final_position = np.array(fk_final.data[0][0:3,3])
+#        self.final_position = np.array(fk_final.data[0][0:3,3])
         
 #        fk_final_angles = self.euler(fk_final.data[0][0:3,0:3])
 #        fk_goal_angles = self.euler(self.fk_goal.data[0][0:3,0:3])
@@ -80,14 +80,14 @@ class minimize_dataset:
             q[t+1] = q[t] + np.matmul(self.S, u[t])
         return (q[1:] - self.q_lower_limit).flatten()
     
-    def minimize_function(self, intial_position = None, goal_position = None ):
+    def minimize_function(self, intial_position = None, goal_cartesian_position = None ):
         if intial_position is not None:
             self.q0 = intial_position
-        if goal_position is not None:
-            self.q_goal = goal_position
+        if goal_cartesian_position is not None:
+            self.fk_goal = goal_cartesian_position
 
-        self.fk_goal =self.panda_rtb.fkine(self.q_goal)
-        self.goal_position = np.array(self.fk_goal.data[0][0:3,3])
+#        self.fk_goal =self.panda_rtb.fkine(self.q_goal)
+#        self.goal_position = np.array(self.fk_goal.data[0][0:3,3])
         # Initial guess for the control inputs
         self.u_initial = np.zeros((self.T, self.nu))
 
@@ -100,7 +100,7 @@ class minimize_dataset:
         ]
 
         ## Optimize
-        result = minimize(self.cost_function, self.u_initial, constraints=self.constraints, method="L-BFGS-B")
+        result = minimize(self.cost_function, self.u_initial, constraints=self.constraints, method="SLSQP")
 
         # Optimal control inputs and states (recreate the joint trajectories)
         self.u_optimal = result.x.reshape(self.T, self.nu)
