@@ -38,6 +38,7 @@ class minimize_dataset:
         # Forward kinematics calculation
         fk_final = self.panda_rtb.fkine(q[-1])
         self.final_position = np.array(fk_final.data[0][0:3,3])
+        print(fk_final, self.fk_goal)
         
         # Mayer term
         # Costs for deviation to goal position (Here: joint positions)
