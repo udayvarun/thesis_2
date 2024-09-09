@@ -2,6 +2,7 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 import roboticstoolbox as rtb
+from scipy.spatial.transform import Rotation
 
 class minimize_dataset:
     def __init__(self, S, T):
@@ -20,6 +21,10 @@ class minimize_dataset:
         # Initialize roboticstoolbox model
         self.panda_rtb = rtb.models.Panda()
     
+    def euler(self, R):
+        r = Rotation.from_matrix(R)
+        angles = r.as_euler("zyx", degrees = True)
+        return angles
     # Define the cost function
     def cost_function(self, u):
         q = np.zeros((self.T+1, self.nq))
@@ -38,11 +43,14 @@ class minimize_dataset:
         # Forward kinematics calculation
         fk_final = self.panda_rtb.fkine(q[-1])
         self.final_position = np.array(fk_final.data[0][0:3,3])
-        print(fk_final, self.fk_goal)
         
+#        fk_final_angles = self.euler(fk_final.data[0][0:3,0:3])
+#        fk_goal_angles = self.euler(self.fk_goal.data[0][0:3,0:3])
+#        print(self.final_position, self.goal_position, fk_final_angles, fk_goal_angles)
         # Mayer term
         # Costs for deviation to goal position (Here: joint positions)
-        cost += np.sum( (fk_final - self.fk_goal)**2 ) 
+#        cost += np.sum( (self.final_position - self.goal_position)**2) + np.sum( (fk_final_angles - fk_goal_angles)**2)
+        cost += np.sum((fk_final - self.fk_goal)**2)
         print (cost)
         return cost
 
@@ -92,7 +100,7 @@ class minimize_dataset:
         ]
 
         ## Optimize
-        result = minimize(self.cost_function, self.u_initial, constraints=self.constraints)
+        result = minimize(self.cost_function, self.u_initial, constraints=self.constraints, method="L-BFGS-B")
 
         # Optimal control inputs and states (recreate the joint trajectories)
         self.u_optimal = result.x.reshape(self.T, self.nu)
