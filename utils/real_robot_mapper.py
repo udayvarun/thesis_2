@@ -30,7 +30,7 @@ class Panda:
     def move_to_start(self):
         self.panda.move_to_start()
     
-    def robot_mapper(self,data, runtime):
+    def robot_mapper(self,data, runtime, frequency):
         ctrl = controllers.JointPosition()
     
         self.panda.start_controller(ctrl)
@@ -47,7 +47,7 @@ class Panda:
 
         print(self.forward_kinematics(self.panda.q))
         v=0
-        with self.panda.create_context(frequency=5e2, max_runtime=runtime) as ctx:
+        with self.panda.create_context(frequency=frequency, max_runtime=runtime) as ctx:
             while ctx.ok():
                 ctrl.set_control(data[v])
                 v+=1

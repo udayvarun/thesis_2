@@ -2,7 +2,6 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 import roboticstoolbox as rtb
-from scipy.spatial.transform import Rotation
 
 class minimize_dataset:
     def __init__(self, S, T):
@@ -10,7 +9,7 @@ class minimize_dataset:
         self.S = np.transpose(S)
         ## Parameters
         self.T = T  # Steps in time horizon
-        self.nu = 7 # Number of PCA components used
+        self.nu = len(S) # Number of PCA components used
         self.nq = 7 # Number of robot joints
         self.q_upper_limit = np.array([2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973])
         self.q_lower_limit = np.array([-2.8973, -1.7628, -2.8973, -3.0718,-2.8973, -0.0175, 2.8973])
@@ -20,11 +19,7 @@ class minimize_dataset:
         self.q_goal = np.array([0.1, 0.1, 0.1, -1.0, 0.1, 0.1, 0.1])
         # Initialize roboticstoolbox model
         self.panda_rtb = rtb.models.Panda()
-    
-    def euler(self, R):
-        r = Rotation.from_matrix(R)
-        angles = r.as_euler("zyx", degrees = True)
-        return angles
+        
     # Define the cost function
     def cost_function(self, u):
         q = np.zeros((self.T+1, self.nq))
@@ -42,14 +37,9 @@ class minimize_dataset:
 
         # Forward kinematics calculation
         fk_final = self.panda_rtb.fkine(q[-1])
-#        self.final_position = np.array(fk_final.data[0][0:3,3])
         
-#        fk_final_angles = self.euler(fk_final.data[0][0:3,0:3])
-#        fk_goal_angles = self.euler(self.fk_goal.data[0][0:3,0:3])
-#        print(self.final_position, self.goal_position, fk_final_angles, fk_goal_angles)
         # Mayer term
         # Costs for deviation to goal position (Here: joint positions)
-#        cost += np.sum( (self.final_position - self.goal_position)**2) + np.sum( (fk_final_angles - fk_goal_angles)**2)
         cost += np.sum((fk_final - self.fk_goal)**2)
         print (cost)
         return cost
@@ -86,11 +76,9 @@ class minimize_dataset:
         if goal_cartesian_position is not None:
             self.fk_goal = goal_cartesian_position
 
-#        self.fk_goal =self.panda_rtb.fkine(self.q_goal)
-#        self.goal_position = np.array(self.fk_goal.data[0][0:3,3])
         # Initial guess for the control inputs
         self.u_initial = np.zeros((self.T, self.nu))
-
+        
         ## Constraints (first and last control input should be zero, rate of change constraint)
         self.constraints = [
             {'type': 'eq', 'fun': self.start_control_constraint},

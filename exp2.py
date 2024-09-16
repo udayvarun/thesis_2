@@ -6,7 +6,7 @@ from utils.interpolate_array import interpolate
 from utils.real_robot_mapper import Panda
 import time
 
-runtime = 10
+runtime = 5
 frequency = 1e2
 
 start_time = time.time()
@@ -18,16 +18,10 @@ Panda().move_to_start()
 
 initial_position = Panda().get_robot_position()
 
-##Reach for cup
-#goal_position = np.array([[0.7805, -0.04214, 0.6237, 0.6662],
-#                          [-0.06911, -0.9974, 0.01909, 0.01705],
-#                          [0.6213, -0.05801, -0.7814, -0.2516],
-#                          [0, 0, 0, 1]])
-
-#Reach for bottle
-goal_position = np.array([[0.9958, 0.0003533, 0.0915, 0.7214],
-                          [0.0003214, -1, 0.0003641, 0.03942],
-                          [0.0915, -0.0003331, -0.9958, -0.1145],
+#Shake hand
+goal_position = np.array([[0.9996, 0.02393, -0.01562, 0.5821],
+                          [-0.01083, -0.1883, -0.9821, -0.6462],
+                          [-0.02644, 0.9818, -0.1879, 0.04599],
                           [0, 0, 0, 1]])
 
 q_optimal = min.minimize_function(initial_position, goal_position)
