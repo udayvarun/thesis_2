@@ -12,7 +12,7 @@ folders.append(r"./DataSets/take_book_from_shelf")
 
 data = []
 for folder in folders:
-    files = DataSet(folder, "right").single_dataset()
+    files = DataSet(folder, "left").single_dataset()
     for file in files:
         data.extend(file)
 
