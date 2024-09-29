@@ -27,9 +27,9 @@ goal_position = np.array([[0.9996, 0.02393, -0.01562, 0.5821],
 q_optimal = min.minimize_function(initial_position, goal_position)
 min.plot_variables()
 
-DataSet.joint_angles_plot(q_optimal)
+
 new_q_optimal = interpolate(q_optimal, int(runtime * frequency))
-DataSet.joint_angles_plot(new_q_optimal)
+DataSet.joint_angles_plot(new_q_optimal, "./figures/exp2.png")
 total_time= time.time()-start_time
 print(f"Total_time = {total_time}")
 
