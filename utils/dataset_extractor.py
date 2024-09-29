@@ -68,7 +68,7 @@ class DataSet:
 
         return np.array(data)
 
-    def joint_angles_plot(data):
+    def joint_angles_plot(data, label = None):
         joint_limits = [(2.8973,-2.8973), (1.7628,-1.7628), (2.8973,-2.8973), (-0.0698, -3.0718), (2.8973,-2.8973), (3.7525,-0.0175), (2.8973,-2.8973)]
         # Plotting original joint angles
         fig, axes = plt.subplots(7, figsize=(15,30), sharex=True)
@@ -81,4 +81,6 @@ class DataSet:
             ax.grid(True)
         plt.xlabel('Time Step')
         plt.ylabel('Joint Angle')
+        if label != None:
+            plt.savefig(label)
         plt.show()
