@@ -1,14 +1,14 @@
-from utils.PCA import PCA
-from utils.dataset_extractor import DataSet
+from PCA import PCA
+from dataset_extractor import DataSet
 import pickle as pk
 import numpy as np
 
 folders = []
-folders.append(r"./DataSets/two_waves")
-folders.append(r"./DataSets/hand_to_mouth")
-folders.append(r"./DataSets/hand_through_hair_right_arm")
-folders.append(r"./DataSets/files_motions_986")
-folders.append(r"./DataSets/take_book_from_shelf")
+folders.append(r"./data_sets/two_waves")
+folders.append(r"./data_sets/hand_to_mouth")
+folders.append(r"./data_sets/hand_through_hair_right_arm")
+folders.append(r"./data_sets/files_motions_986")
+folders.append(r"./data_sets/take_book_from_shelf")
 
 data = []
 for folder in folders:
