@@ -1,12 +1,16 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from utils.dataset_extractor import DataSet
 import numpy as np
 import matplotlib.pyplot as plt
 
-folder = (r"./DataSets/two_waves")
+folder = (r"./data_sets/two_waves")
 files = DataSet(folder, "left").single_dataset()
 
 joint_angles = np.array(files[0])
-DataSet.joint_angles_plot(joint_angles, "./figures/data_set.png")
+DataSet.joint_angles_plot(joint_angles, "./experiment_data_set/figures/data_set.png")
 time_steps = np.arange(0, len(joint_angles) * 0.01, 0.01)
 time_gradients = np.gradient(time_steps).reshape(-1, 1)
 joint_velocities = np.gradient(joint_angles, axis=0) / time_gradients
