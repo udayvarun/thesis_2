@@ -1,14 +1,14 @@
-from PCA import PCA
+from utils.PCA import PCA
 from dataset_extractor import DataSet
 import pickle as pk
 import numpy as np
 
 folders = []
-folders.append(r"./data_sets/two_waves")
-folders.append(r"./data_sets/hand_to_mouth")
-folders.append(r"./data_sets/hand_through_hair_right_arm")
-folders.append(r"./data_sets/files_motions_986")
-folders.append(r"./data_sets/take_book_from_shelf")
+folders.append(r"../data_sets/two_waves")
+folders.append(r"../data_sets/hand_to_mouth")
+folders.append(r"../data_sets/hand_through_hair_right_arm")
+folders.append(r"../data_sets/files_motions_986")
+folders.append(r"../data_sets/take_book_from_shelf")
 
 data = []
 for folder in folders:
@@ -27,4 +27,4 @@ pca.pca_calculation()
 
 # print(pca.pca.components_)
 
-pk.dump(pca, open("utils/pca.pkl","wb"))
+pk.dump(pca, open("pca.pkl","wb"))

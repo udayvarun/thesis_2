@@ -1,49 +1,36 @@
-from utils.robot_synergy_input import minimize_dataset
-import pickle as pk
 import numpy as np
-from utils.dataset_extractor import DataSet
-from utils.interpolate_array import interpolate
 from utils.real_robot_mapper import Panda
+from utils.move_position import move_to_position
 import time
-start_time = time.time()
-pca_reload = pk.load(open("utils/pca.pkl",'rb'))
-pca_components = pca_reload.pca.components_
-min = minimize_dataset(pca_components, 50)
+from utils.calculate_q import calculate_q
 
 Panda().move_to_start()
 
 initial_position = Panda().get_robot_position()
-# initial_position = np.array([-0.00867367069998331, -0.7859290811555426, 0.0014189809690487837, -2.356400179186334, 0.003559221795097906, 1.5683314154592496, 0.7770764079358842])
+goal_position = np.array([[<desired_matrix>],
+                          [0, 0, 0, 1]])
+calculate_q(initial_position, goal_position, 'exp0_1', 10)
 
-#
-#goal_position = np.array([[0.2091, 0.1494, 0.9664, 0.9337],
-#                          [0.4318,0.9859, -0.1617, -0.08624],
-#                          [-0.9769,0.07555,0.1997,0.3445],
-#                          [0, 0, 0, 1]])
+move_to_position('exp0_0', 10)
 
-#hand straight
-#goal_position = np.array([[-0.1055, 0.2828, 0.9533, 0.7498],
-#                          [ 0.8206, -0.5168, 0.2441, 0.5587],
-#                          [0.5617, 0.8081, -0.1776, 0.3542],
-#                          [0, 0, 0, 1]])
+time.sleep(5)
 
-#Wave Hand
-#goal_position = np.array([[0.02383, 0.9942, 0.105, 0.4677],
-#                          [-0.9962, 0.03239, -0.08061, -0.03806],
-#                          [-0.08354, -0.1027, 0.9912, 0.9345],
-#                          [0, 0, 0, 1]])
+initial_position = Panda().get_robot_position()
+goal_position = np.array([[<desired_matrix>],
+                          [0, 0, 0, 1]])
+calculate_q(initial_position, goal_position, 'exp0_2', 5)
 
-q_optimal = min.minimize_function(initial_position, goal_position)
-min.plot_variables()
+move_to_position('exp0_2', 5)
 
-DataSet.joint_angles_plot(q_optimal)
-new_q_optimal = interpolate(q_optimal, 25000)
-DataSet.joint_angles_plot(new_q_optimal)
-total_time= time.time()-start_time
-print(f"Total_time = {total_time}")
+time.sleep(5)
 
-Panda().robot_mapper(new_q_optimal,50)
-joint_postion = Panda().get_robot_position()
-cartesian_position = Panda().forward_kinematics(joint_postion)
+initial_position = Panda().get_robot_position()
+goal_position = np.array([[<desired_matrix>],
+                          [0, 0, 0, 1]])
+calculate_q(initial_position, goal_position, 'exp0_3', 5)
 
-print(joint_postion, cartesian_position)
+move_to_position('exp0_3', 5)
+
+time.sleep(5)
+
+Panda().move_to_start()
