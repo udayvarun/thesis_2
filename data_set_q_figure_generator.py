@@ -6,11 +6,13 @@ from utils.dataset_extractor import DataSet
 import numpy as np
 import matplotlib.pyplot as plt
 
-folder = (r"../data_sets/two_waves")
+folder = (r"./data_sets/two_waves")
 files = DataSet(folder, "left").single_dataset()
 
-joint_angles = np.array(files[0])
-DataSet.joint_angles_plot(joint_angles, "../experiment_data_set/figures/data_set.png")
+#joint_angles = np.array(files[0])
+joint_angles = np.load(f'./experiment_data_set/exp1.npy')
+#file_name = "./experiment_data_set/figures/data_set_velocity.png"
+file_name = "./experiment_data_set/figures/exp1_velocity.png"
 time_steps = np.arange(0, len(joint_angles) * 0.01, 0.01)
 time_gradients = np.gradient(time_steps).reshape(-1, 1)
 joint_velocities = np.gradient(joint_angles, axis=0) / time_gradients
@@ -34,4 +36,5 @@ ax[1].legend()
 ax[1].grid(True)
 
 plt.tight_layout()
+plt.savefig(file_name)
 plt.show()
