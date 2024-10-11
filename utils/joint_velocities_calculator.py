@@ -1,21 +1,23 @@
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from utils.dataset_extractor import DataSet
+from dataset_extractor import DataSet
 import numpy as np
 import matplotlib.pyplot as plt
 
 folder = (r"./data_sets/two_waves")
 files = DataSet(folder, "left").single_dataset()
 
-#joint_angles = np.array(files[0])
-joint_angles = np.load(f'./experiment_data_set/exp1.npy')
-#file_name = "./experiment_data_set/figures/data_set_velocity.png"
-file_name = "./experiment_data_set/figures/exp1_velocity.png"
-time_steps = np.arange(0, len(joint_angles) * 0.01, 0.01)
-time_gradients = np.gradient(time_steps).reshape(-1, 1)
-joint_velocities = np.gradient(joint_angles, axis=0) / time_gradients
+# joint_angles = np.array(files[0])
+# file_name = "./experiment_data_set/figures/data_set_velocity.png"
+
+joint_angles_1 = np.load(f'./experiment_data_set/exp3_1.npy')
+joint_angles_2 = np.load(f'./experiment_data_set/exp3_2.npy')
+joint_angles_3 = np.load(f'./experiment_data_set/exp3_3.npy')
+joint_angles = np.append(joint_angles_1, joint_angles_2, axis=0)
+joint_angles = np.append(joint_angles, joint_angles_3, axis=0)
+file_name = "./experiment_data_set/figures/exp3_velocity.png"
+
+time_steps = np.arange(0, joint_angles.shape[0], 1)
+joint_velocities = np.diff(joint_angles, axis=0) / np.diff(time_steps)[:, None]
+joint_velocities = np.vstack([joint_velocities, np.zeros((1, joint_angles.shape[1]))])
 
 fig, ax = plt.subplots(2, 1, figsize=(14, 10))
 
