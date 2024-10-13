@@ -9,7 +9,7 @@ import pickle as pk
 import numpy as np
 import time
 
-def calculate_q(initial_position, goal_position, exp_name, runtime, n_components):
+def calculate_q(initial_position, goal_position, exp_name, runtime, n_components = 7):
     frequency = 1e2
 
     start_time = time.time()
