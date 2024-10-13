@@ -4,14 +4,16 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from utils.robot_synergy_input import minimize_dataset
 from utils.interpolate_array import interpolate
+from utils.PCA_training import generate_pca_file
 import pickle as pk
 import numpy as np
 import time
 
-def calculate_q(initial_position, goal_position, exp_name, runtime):
+def calculate_q(initial_position, goal_position, exp_name, runtime, n_components):
     frequency = 1e2
 
     start_time = time.time()
+    generate_pca_file(n_components)
     pca_reload = pk.load(open("./utils/pca.pkl",'rb'))
     pca_components = pca_reload.pca.components_
     min = minimize_dataset(pca_components, runtime*5)
