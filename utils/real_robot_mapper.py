@@ -29,6 +29,9 @@ class Panda:
     
     def move_to_start(self):
         self.panda.move_to_start()
+        
+    def move_to_pose(self, pose):
+        self.panda.move_to_pose(pose)
     
     def robot_mapper(self,data, runtime, frequency):
         ctrl = controllers.JointPosition()
