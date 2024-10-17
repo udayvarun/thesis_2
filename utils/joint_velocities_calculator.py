@@ -5,26 +5,31 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from dataset_extractor import DataSet
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.ndimage import gaussian_filter
 
 folder = (r"./data_sets/two_waves")
 files = DataSet(folder, "left").single_dataset()
 
-joint_angles = np.array(files[0])
-file_name = "./experiment_data_set/figures/data_set_acceleration.png"
+# joint_angles = np.array(files[0])
+# file_name = "./experiment_data_set/figures/data_set_acceleration_filter.png"
 
-# joint_angles_1 = np.load(f'./experiment_data_set/exp3_1_1.npy')
-# joint_angles_2 = np.load(f'./experiment_data_set/exp3_1_2.npy')
-# joint_angles_3 = np.load(f'./experiment_data_set/exp3_1_3.npy')
-# joint_angles = np.append(joint_angles_1, joint_angles_2, axis=0)
-# joint_angles = np.append(joint_angles, joint_angles_3, axis=0)
-# file_name = "./experiment_data_set/figures/exp3_acceleration.png"
+joint_angles_1 = np.load(f'./experiment_data_set/exp3_1_1.npy')
+joint_angles_2 = np.load(f'./experiment_data_set/exp3_1_2.npy')
+joint_angles_3 = np.load(f'./experiment_data_set/exp3_1_3.npy')
+joint_angles = np.append(joint_angles_1, joint_angles_2, axis=0)
+joint_angles = np.append(joint_angles, joint_angles_3, axis=0)
+file_name = "./experiment_data_set/figures/exp3_acceleration_filter.png"
 
 time_steps = np.arange(0, joint_angles.shape[0], 1)
 joint_velocities = np.diff(joint_angles, axis=0) / np.diff(time_steps)[:, None]
 joint_velocities_stack = np.vstack([joint_velocities, np.zeros((1, joint_angles.shape[1]))])
 
+joint_velocities_stack = gaussian_filter(joint_velocities_stack, 1)
+
 joint_accelerations = np.diff(joint_velocities_stack, axis=0) / np.diff(time_steps)[:, None]
 joint_accelerations_stack = np.vstack([joint_accelerations, np.zeros((1, joint_velocities_stack.shape[1]))])
+
+joint_accelerations_stack = gaussian_filter(joint_accelerations_stack, 1)
 
 fig, ax = plt.subplots(3, 1, figsize=(14, 10))
 
