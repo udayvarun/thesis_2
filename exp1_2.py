@@ -6,42 +6,35 @@ import time
 
 Panda().move_to_start()
 
-initial_position = Panda().get_robot_position()
-goal_position = np.array([[0.0383, -0.02461, 0.999, 0.9191],
-                         [-0.9976, -0.05895, 0.0368, 0.01286],
-                         [0.05798, -0.998,-0.02681, 0.4007],
-                         [0, 0, 0, 1]])
-calculate_q(initial_position, goal_position, 'exp1_1_1', 10, 4)
+#initial_position = Panda().get_robot_position()
+#goal_position = np.array([[0.0383, -0.02461, 0.999, 0.9191],
+#                         [-0.9976, -0.05895, 0.0368, 0.01286],
+#                         [0.05798, -0.998,-0.02681, 0.4007],
+#                         [0, 0, 0, 1]])
+#calculate_q(initial_position, goal_position, 'exp1_2_1', 10, 6)
 
-move_to_position('exp1_1_1', 10)
+move_to_position('exp1_2_1', 10)
 
 time.sleep(5)
 
-initial_position = Panda().get_robot_position()
-
-# #Reach for cup
-# goal_position = np.array([[0.7805, -0.04214, 0.6237, 0.6662],
-#                          [-0.06911, -0.9974, 0.01909, 0.01705],
-#                          [0.6213, -0.05801, -0.7814, -0.2516],
-#                          [0, 0, 0, 1]])
-
-#Reach for bottle
-goal_position = np.array([[0.9958, 0.0003533, 0.0915, 0.7214],
-                         [0.0003214, -1, 0.0003641, 0.03942],
-                         [0.0915, -0.0003331, -0.9958, -0.1145],
-                         [0, 0, 0, 1]])
-calculate_q(initial_position, goal_position, 'exp1_2_2', 5, 4)
-
+#initial_position = Panda().get_robot_position()
+##Reach for bottle
+#goal_position = np.array([[0.9958, 0.0003533, 0.0915, 0.7214],
+#                         [0.0003214, -1, 0.0003641, 0.03942],
+#                         [0.0915, -0.0003331, -0.9958, -0.1145],
+#                         [0, 0, 0, 1]])
+#calculate_q(initial_position, goal_position, 'exp1_2_2', 5, 6)
+#
 move_to_position('exp1_2_2', 5)
 
 time.sleep(5)
 
-initial_position = Panda().get_robot_position()
-goal_position = np.array([[0.0383, -0.02461, 0.999, 0.9191],
-                         [-0.9976, -0.05895, 0.0368, 0.01286],
-                         [0.05798, -0.998,-0.02681, 0.4007],
-                         [0, 0, 0, 1]])
-calculate_q(initial_position, goal_position, 'exp1_2_3', 10, 4)
+#initial_position = Panda().get_robot_position()
+#goal_position = np.array([[0.0383, -0.02461, 0.999, 0.9191],
+#                         [-0.9976, -0.05895, 0.0368, 0.01286],
+#                         [0.05798, -0.998,-0.02681, 0.4007],
+#                         [0, 0, 0, 1]])
+#calculate_q(initial_position, goal_position, 'exp1_2_3', 10, 6)
 
 move_to_position('exp1_2_3', 10)
 

@@ -32,6 +32,9 @@ class Panda:
         
     def move_to_pose(self, pose):
         self.panda.move_to_pose(pose)
+        
+    def move_to_joint_position(self, joint_position):
+        self.panda.move_to_joint_position(joint_position)
     
     def robot_mapper(self,data, runtime, frequency):
         ctrl = controllers.JointPosition()
