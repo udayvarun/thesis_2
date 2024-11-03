@@ -46,7 +46,7 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     # Set labels and title with enhanced font sizes
     ax.set_xlabel('Categories', fontsize=14)
     ax.set_ylabel('Scores', fontsize=14)
-    ax.set_title(f'Comparison of {selected_methods} Across All Categories', fontsize=16)
+    ax.set_title(f'Comparison of {", ".join(selected_methods)} Across All Categories', fontsize=16)
     ax.set_xticks(index + bar_width)
     ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
     ax.legend(loc='upper left', fontsize=12)
