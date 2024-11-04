@@ -84,6 +84,7 @@ ax.set_ylabel('Scores', fontsize=14)
 ax.set_title(f'Scores for Average Across All Categories', fontsize=16)
 ax.set_xticks(index)
 ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
+ax.legend(loc='upper left', fontsize=12)
 
 plt.tight_layout()
 plt.savefig(f"questionnaire/averaged_comparison.png")
