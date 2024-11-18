@@ -24,6 +24,8 @@ method_groups = [(0, 1, 2), (3, 4, 5), (6, 7, 8)]  # Group 3 methods per plot
 # Set the bar width
 bar_width = 0.2
 
+plt.rcParams.update({'font.size': 15})
+
 # Plotting each set of methods across all categories in separate figures
 for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     
@@ -36,7 +38,7 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     selected_methods = [methods[method_idx1], methods[method_idx2], methods[method_idx3]]
     
     # Create a figure for each group of methods
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(10, 6), dpi=600)
     
     # Plot bars for each method within all categories
     for k, method_data in enumerate(selected_data):
@@ -49,7 +51,7 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     ax.set_title(f'Comparison of {", ".join(selected_methods)} Across All Categories', fontsize=16)
     ax.set_xticks(index + bar_width)
     ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
-    ax.legend(loc='upper left', fontsize=12)
+    ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
     
     # Adjust layout for better readability
     plt.tight_layout()
@@ -74,7 +76,7 @@ grouped_errors = np.array([
     np.sqrt(np.sum(errors[[2, 5, 8], :] ** 2, axis=0)),  # Errors for 1.3, 2.3, 3.3
 ])
 methods_all = ["Method 1", "Method 2", "Method 3"]
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 6), dpi= 600)
 for k, method_data in enumerate(grouped_data):
         ax.bar(index + k * bar_width, method_data, bar_width, yerr=grouped_errors[k], 
                label=methods_all[k], capsize=3)
@@ -84,7 +86,7 @@ ax.set_ylabel('Scores', fontsize=14)
 ax.set_title(f'Scores for Average Across All Categories', fontsize=16)
 ax.set_xticks(index)
 ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
-ax.legend(loc='upper left', fontsize=12)
+ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
 
 plt.tight_layout()
 plt.savefig(f"questionnaire/averaged_comparison.png")
