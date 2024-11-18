@@ -5,7 +5,8 @@ Error = [3.3557725930213493, 3.1219989438901004, 2.132287199403614,
          1.6788126842571727, 0.488758132805126, 0.3242852634378725, 0.01012521789674953]
 Time = [5, 9, 7, 9, 14, 20, 23]
 
-plt.figure(figsize=(10, 5))
+plt.rcParams.update({'font.size': 15})
+plt.figure(figsize=(10, 5), dpi=600)
 plt.subplot(1, 2, 1)
 plt.plot(PCA, Error, marker='o', label="Error", color="blue")
 plt.title("PCA Components vs Error")
