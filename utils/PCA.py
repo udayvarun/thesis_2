@@ -34,9 +34,10 @@ class PCA:
         self.cumulative_variance = np.cumsum(self.explained_variance)
         return self.pca_result
 
-    def pca_plot(self):
+    def pca_plot(self, filename):
         # Plotting PCAs
-        plt.figure(figsize=(8, 6))
+        plt.rcParams.update({'font.size': 15})
+        plt.figure(figsize=(8, 6), dpi=600)
         plt.plot(range(1, self.n_components + 1), self.explained_variance, marker='o', label='Explained Variance')
         plt.plot(range(1, self.n_components + 1 ), self.cumulative_variance, marker='s', label='Cumulative Variance')
         plt.xlabel('Principal Component')
@@ -44,6 +45,7 @@ class PCA:
         plt.title('Explained Variance by Principal Components')
         plt.legend()
         plt.grid(True)
+        plt.savefig(filename)
         plt.show()
 
     def print_pca_data(self):

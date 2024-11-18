@@ -99,30 +99,34 @@ class minimize_dataset:
 
         return self.q_optimal
     
-    def plot_variables(self):
-        time = np.arange(self.T+1)
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 10))
+    def plot_variables(self, filepath):
+        time = np.arange(self.T + 1)
+        time_in_seconds = time * 0.01
+        plt.rcParams.update({'font.size': 15})
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 10), dpi=600)
 
-        # Plot für die Zustandsvariablen
+        # Plot for the state variables
         for i in range(self.q_optimal.shape[1]):
-            ax1.plot(time, self.q_optimal[:, i], label=f'State {i+1}')
-            ax1.set_xlabel('Time')
-            ax1.set_ylabel('State Variables')
-            ax1.legend()
-            ax1.grid(True)
-            ax1.set_title('State Variables over Time')
+            ax1.plot(time_in_seconds, self.q_optimal[:, i], label=f'State {i+1}')
+        ax1.set_xlabel('Time (sec)')
+        ax1.set_ylabel('State Variables')
+        ax1.grid(True)
+        ax1.set_title('State Variables over Time')
+        ax1.legend(loc='upper left', bbox_to_anchor=(1, 1))  # Move legend outside
 
-        # Plot für die Steuerungsvariablen
+        # Plot for the control variables
         for i in range(self.nu):
             if self.nu > 1:
-                ax2.plot(time[:-1], self.u_optimal[:, i], label=f'Control {i+1}')
+                ax2.plot(time_in_seconds[:-1], self.u_optimal[:, i], label=f'Control {i+1}')
             else:
-                ax2.plot(time[:-1], self.u_optimal, label=f'Control {i+1}')
-            ax2.set_xlabel('Time')
-            ax2.set_ylabel('Control Variables')
-            ax2.legend()
-            ax2.grid(True)
-            ax2.set_title('Control Variables over Time')
+                ax2.plot(time_in_seconds[:-1], self.u_optimal, label=f'Control {i+1}')
+        ax2.set_xlabel('Time (sec)')
+        ax2.set_ylabel('Control Variables')
+        ax2.grid(True)
+        ax2.set_title('Control Variables over Time')
+        ax2.legend(loc='upper left', bbox_to_anchor=(1, 1))  # Move legend outside
 
         plt.tight_layout()
+        plt.subplots_adjust(right=0.8)  # Adjust layout to fit legends outside
+        plt.savefig(filepath)
         plt.show()

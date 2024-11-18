@@ -9,7 +9,7 @@ import pickle as pk
 import numpy as np
 import time
 
-def calculate_q(initial_position, goal_position, exp_name, runtime, n_components = 7, factor = 5):
+def calculate_q(initial_position, goal_position, exp_name, runtime, filepath, n_components = 7, factor = 5):
     frequency = 1e2
 
     start_time = time.time()
@@ -19,7 +19,7 @@ def calculate_q(initial_position, goal_position, exp_name, runtime, n_components
     min = minimize_dataset(pca_components, runtime*factor)
 
     q_optimal = min.minimize_function(initial_position, goal_position)
-    min.plot_variables()
+    min.plot_variables(filepath)
 
 
     new_q_optimal = interpolate(q_optimal, int(runtime * frequency))
