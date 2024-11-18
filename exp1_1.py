@@ -1,21 +1,24 @@
 import numpy as np
-from utils.real_robot_mapper import Panda
-from utils.move_position import move_to_position
+# from utils.real_robot_mapper import Panda
+# from utils.move_position import move_to_position
 from utils.calculate_q import calculate_q
 import time
 
-goal_joint_position = np.array([0.14657515533891577, 1.5838447781278373, -1.5818225305216425, -0.38852626337635504, 1.5798191279371578, 3.1866216808557506, 0.8204606715504958])
-Panda().move_to_joint_position(goal_joint_position)
+# goal_joint_position = np.array([0.14657515533891577, 1.5838447781278373, -1.5818225305216425, -0.38852626337635504, 1.5798191279371578, 3.1866216808557506, 0.8204606715504958])
+# Panda().move_to_joint_position(goal_joint_position)
 
-#initial_position = Panda().get_robot_position()
-##Reach for bottle
-#goal_position = np.array([[0.9958, 0.0003533, 0.0915, 0.7214],
-#                          [0.0003214, -1, 0.0003641, 0.03942],
-#                          [0.0915, -0.0003331, -0.9958, -0.1145],
-#                          [0, 0, 0, 1]])
-#calculate_q(initial_position, goal_position, 'exp1_1_1', 3, factor = 10)
+filepath = r"experiment_data_set\figures\exp1_control_and_state_variables.png"
 
-move_to_position('exp1_1_1', 3)
+initial_position = np.array([0.14657515533891577, 1.5838447781278373, -1.5818225305216425, -0.38852626337635504, 1.5798191279371578, 3.1866216808557506, 0.8204606715504958])
+# initial_position = Panda().get_robot_position()
+#Reach for bottle
+goal_position = np.array([[0.9958, 0.0003533, 0.0915, 0.7214],
+                         [0.0003214, -1, 0.0003641, 0.03942],
+                         [0.0915, -0.0003331, -0.9958, -0.1145],
+                         [0, 0, 0, 1]])
+calculate_q(initial_position, goal_position, 'exp1_1_1', 3, filepath, factor = 10)
+
+# move_to_position('exp1_1_1', 3)
 
 time.sleep(2)
 
@@ -26,4 +29,4 @@ time.sleep(2)
 #                         [0, 0, 0, 1]])
 #calculate_q(initial_position, goal_position, 'exp1_1_2', 3, factor = 10)
 
-move_to_position('exp1_1_2', 3)
+# move_to_position('exp1_1_2', 3)
