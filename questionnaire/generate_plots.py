@@ -97,18 +97,18 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     # Display the plot
     plt.show()
 
-# Group data by summing the specified methods
+# Correctly calculate the average of grouped data
 grouped_data = np.array([
-    np.sum(data[[0, 3, 6], :], axis=0),  # Sum of 1.1, 2.1, 3.1
-    np.sum(data[[1, 4, 7], :], axis=0),  # Sum of 1.2, 2.2, 3.2
-    np.sum(data[[2, 5, 8], :], axis=0),  # Sum of 1.3, 2.3, 3.3
+    np.mean(data[[0, 3, 6], :], axis=0),  # Average of 1.1, 2.1, 3.1
+    np.mean(data[[1, 4, 7], :], axis=0),  # Average of 1.2, 2.2, 3.2
+    np.mean(data[[2, 5, 8], :], axis=0),  # Average of 1.3, 2.3, 3.3
 ])
 
-# Sum errors in quadrature for each grouped method
+# Errors are averaged quadratically
 grouped_errors = np.array([
-    np.sqrt(np.sum(errors[[0, 3, 6], :] ** 2, axis=0)),  # Errors for 1.1, 2.1, 3.1
-    np.sqrt(np.sum(errors[[1, 4, 7], :] ** 2, axis=0)),  # Errors for 1.2, 2.2, 3.2
-    np.sqrt(np.sum(errors[[2, 5, 8], :] ** 2, axis=0)),  # Errors for 1.3, 2.3, 3.3
+    np.sqrt(np.sum(errors[[0, 3, 6], :] ** 2, axis=0)) / len([0, 3, 6]),  # Quadratic avg for 1.1, 2.1, 3.1
+    np.sqrt(np.sum(errors[[1, 4, 7], :] ** 2, axis=0)) / len([1, 4, 7]),  # Quadratic avg for 1.2, 2.2, 3.2
+    np.sqrt(np.sum(errors[[2, 5, 8], :] ** 2, axis=0)) / len([2, 5, 8]),  # Quadratic avg for 1.3, 2.3, 3.3
 ])
 methods_all = ["7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory"]
 
@@ -138,23 +138,3 @@ plt.tight_layout()
 plt.savefig(f"questionnaire/averaged_comparison.png")
 plt.show()
 
-
-
-# # Generate tables for each experiment
-# markdown_files = []
-# for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
-#     selected_methods = [methods[method_idx1], methods[method_idx2], methods[method_idx3]]
-#     selected_data = data[[method_idx1, method_idx2, method_idx3], :]
-#     selected_errors = errors[[method_idx1, method_idx2, method_idx3], :]
-    
-#     # Create markdown content for the table
-#     markdown_content = create_markdown_table(categories, selected_methods, selected_data, selected_errors, i)
-    
-#     # Save to a markdown file
-#     file_path = os.path.join(output_dir, f"experiment_{i + 1}_table.md")
-#     with open(file_path, "w") as file:
-#         file.write(markdown_content)
-    
-#     markdown_files.append(file_path)
-
-# markdown_files
