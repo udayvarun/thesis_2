@@ -1,6 +1,24 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+
+# Helper function to generate markdown tables
+def create_markdown_table(categories, methods, data, errors, experiment):
+    table_lines = []
+    table_lines.append(f"### Table for {experiment}")
+    table_lines.append("| **Category**            | " + " | ".join([f"**{method}**" for method in methods]) + " |")
+    table_lines.append("|--------------------------| " + " | ".join(["-----------------------------"] * len(methods)) + " |")
+
+    for cat_idx, category in enumerate(categories):
+        row = [category] + [
+            f"{data[method_idx, cat_idx]:.2f} &pm; {errors[method_idx, cat_idx]:.2f}"
+            for method_idx in range(len(methods))
+        ]
+        table_lines.append("| " + " | ".join(row) + " |")
+    
+    return "\n".join(table_lines)
+
 
 csv = pd.read_csv("questionnaire/Human-Likeness of robotic arm with postrual synergies (Responses) - Form responses 1.csv")
 
@@ -8,7 +26,7 @@ csv = pd.read_csv("questionnaire/Human-Likeness of robotic arm with postrual syn
 categories = ["Fake/Natural", "Machine-like/Human-like", "Unconscious/Conscious", "Artificial/Lifelike", "Moving rigidly/Moving Elegantly",
               "Doesn't make sense/Makes sense"]
 
-methods = ["Method 1.1", "Method 1.2", "Method 1.3", "Method 2.1", "Method 2.2", "Method 2.3", "Method 3.1", "Method 3.2", "Method 3.3"]
+methods = ["7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory", "7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory", "7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory"]
 csv = csv.drop(columns=["Timestamp", "Participant number"])
 columns = [col for col in csv.columns]
 means = [np.mean(csv[i].values) for i in columns]
@@ -26,12 +44,29 @@ bar_width = 0.2
 
 plt.rcParams.update({'font.size': 15})
 
+# Create a directory to save the markdown tables
+output_dir = "questionnaire/tables"
+os.makedirs(output_dir, exist_ok=True)
+
+markdown_files = []
+
 # Plotting each set of methods across all categories in separate figures
 for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     
     # Extract the relevant data and errors for the current methods
     selected_data = data[[method_idx1, method_idx2, method_idx3], :]
     selected_errors = errors[[method_idx1, method_idx2, method_idx3], :]
+    selected_methods = [methods[method_idx1], methods[method_idx2], methods[method_idx3]]
+
+    # Create markdown content for the table
+    markdown_content = create_markdown_table(categories, selected_methods, selected_data, selected_errors, f"Experiment {i+1}")
+    
+    # Save to a markdown file
+    file_path = os.path.join(output_dir, f"experiment_{i + 1}_table.md")
+    with open(file_path, "w") as file:
+        file.write(markdown_content)
+    
+    markdown_files.append(file_path)
     
     # Define the indices for the categories
     index = np.arange(len(categories))
@@ -48,7 +83,7 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     # Set labels and title with enhanced font sizes
     ax.set_xlabel('Categories', fontsize=14)
     ax.set_ylabel('Scores', fontsize=14)
-    ax.set_title(f'Comparison of {", ".join(selected_methods)} Across All Categories', fontsize=16)
+    ax.set_title(f'Comparison of Experiment {i+1} methods across all categories', fontsize=16)
     ax.set_xticks(index + bar_width)
     ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
     ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
@@ -75,7 +110,18 @@ grouped_errors = np.array([
     np.sqrt(np.sum(errors[[1, 4, 7], :] ** 2, axis=0)),  # Errors for 1.2, 2.2, 3.2
     np.sqrt(np.sum(errors[[2, 5, 8], :] ** 2, axis=0)),  # Errors for 1.3, 2.3, 3.3
 ])
-methods_all = ["Method 1", "Method 2", "Method 3"]
+methods_all = ["7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory"]
+
+# Create markdown content for the table
+markdown_content = create_markdown_table(categories, methods_all, grouped_data, grouped_errors, "Averages of Experiments")
+    
+# Save to a markdown file
+file_path = os.path.join(output_dir, f"avg_experiment_table.md")
+with open(file_path, "w") as file:
+    file.write(markdown_content)
+    
+markdown_files.append(file_path)
+
 fig, ax = plt.subplots(figsize=(10, 6), dpi= 600)
 for k, method_data in enumerate(grouped_data):
         ax.bar(index + k * bar_width, method_data, bar_width, yerr=grouped_errors[k], 
@@ -83,7 +129,7 @@ for k, method_data in enumerate(grouped_data):
 
 ax.set_xlabel('Categories', fontsize=14)
 ax.set_ylabel('Scores', fontsize=14)
-ax.set_title(f'Scores for Average Across All Categories', fontsize=16)
+ax.set_title(f'Scores for average across all categories', fontsize=16)
 ax.set_xticks(index)
 ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
 ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
@@ -91,3 +137,24 @@ ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
 plt.tight_layout()
 plt.savefig(f"questionnaire/averaged_comparison.png")
 plt.show()
+
+
+
+# # Generate tables for each experiment
+# markdown_files = []
+# for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
+#     selected_methods = [methods[method_idx1], methods[method_idx2], methods[method_idx3]]
+#     selected_data = data[[method_idx1, method_idx2, method_idx3], :]
+#     selected_errors = errors[[method_idx1, method_idx2, method_idx3], :]
+    
+#     # Create markdown content for the table
+#     markdown_content = create_markdown_table(categories, selected_methods, selected_data, selected_errors, i)
+    
+#     # Save to a markdown file
+#     file_path = os.path.join(output_dir, f"experiment_{i + 1}_table.md")
+#     with open(file_path, "w") as file:
+#         file.write(markdown_content)
+    
+#     markdown_files.append(file_path)
+
+# markdown_files
