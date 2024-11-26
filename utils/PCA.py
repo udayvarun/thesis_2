@@ -42,7 +42,7 @@ class PCA:
         plt.plot(range(1, self.n_components + 1 ), self.cumulative_variance, marker='s', label='Cumulative Variance')
         plt.xlabel('Principal Component')
         plt.ylabel('Variance Ratio')
-        plt.title('Explained Variance by Principal Components')
+        # plt.title('Explained Variance by Principal Components')
         plt.legend()
         plt.grid(True)
         plt.savefig(filename)
