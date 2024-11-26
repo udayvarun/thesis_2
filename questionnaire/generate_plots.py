@@ -23,8 +23,8 @@ def create_markdown_table(categories, methods, data, errors, experiment):
 csv = pd.read_csv("questionnaire/Human-Likeness of robotic arm with postrual synergies (Responses) - Form responses 1.csv")
 
 # Define categories and methods
-categories = ["Fake/Natural", "Machine-like/Human-like", "Unconscious/Conscious", "Artificial/Lifelike", "Moving rigidly/Moving Elegantly",
-              "Doesn't make sense/Makes sense"]
+categories = ["Fake/ \n Natural", "Machine-like/ \n Human-like", "Unconscious/ \n Conscious", "Artificial/ \n Lifelike", "Moving rigidly/ \n Moving Elegantly",
+              "Doesn't make sense/ \n Makes sense"]
 
 methods = ["7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory", "7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory", "7 PCAs Trajectory", "6 PCAs Trajectory", "panda_py Trajectory"]
 csv = csv.drop(columns=["Timestamp", "Participant number"])
@@ -75,6 +75,9 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     # Create a figure for each group of methods
     fig, ax = plt.subplots(figsize=(10, 6), dpi=600)
     
+    # cmap = plt.get_cmap('Set1')
+    # colors = cmap(np.linspace(0, 1, len(selected_data)))
+    
     # Plot bars for each method within all categories
     for k, method_data in enumerate(selected_data):
         ax.bar(index + k * bar_width, method_data, bar_width, yerr=selected_errors[k], 
@@ -83,7 +86,7 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     # Set labels and title with enhanced font sizes
     ax.set_xlabel('Categories', fontsize=14)
     ax.set_ylabel('Scores', fontsize=14)
-    ax.set_title(f'Comparison of Experiment {i+1} methods across all categories', fontsize=16)
+    # ax.set_title(f'Comparison of Experiment {i+1} methods across all categories', fontsize=16)
     ax.set_xticks(index + bar_width)
     ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
     ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
@@ -129,7 +132,7 @@ for k, method_data in enumerate(grouped_data):
 
 ax.set_xlabel('Categories', fontsize=14)
 ax.set_ylabel('Scores', fontsize=14)
-ax.set_title(f'Scores for average across all categories', fontsize=16)
+# ax.set_title(f'Scores for average across all categories', fontsize=16)
 ax.set_xticks(index)
 ax.set_xticklabels(categories, rotation=45, ha="right", fontsize=12)
 ax.legend(loc='upper left', bbox_to_anchor=(1, 1))
