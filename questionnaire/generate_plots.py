@@ -73,7 +73,7 @@ for i, (method_idx1, method_idx2, method_idx3) in enumerate(method_groups):
     selected_methods = [methods[method_idx1], methods[method_idx2], methods[method_idx3]]
     
     # Create a figure for each group of methods
-    fig, ax = plt.subplots(figsize=(10, 6), dpi=600)
+    fig, ax = plt.subplots(figsize=(10, 5), dpi=600)
     
     # cmap = plt.get_cmap('Set1')
     # colors = cmap(np.linspace(0, 1, len(selected_data)))
@@ -125,7 +125,7 @@ with open(file_path, "w") as file:
     
 markdown_files.append(file_path)
 
-fig, ax = plt.subplots(figsize=(10, 6), dpi= 600)
+fig, ax = plt.subplots(figsize=(10, 5), dpi= 600)
 for k, method_data in enumerate(grouped_data):
         ax.bar(index + k * bar_width, method_data, bar_width, yerr=grouped_errors[k], 
                label=methods_all[k], capsize=3)
