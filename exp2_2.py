@@ -1,11 +1,12 @@
 import numpy as np
-from utils.real_robot_mapper import Panda
-from utils.move_position import move_to_position
+from utils.map_to_robot_simulation import map_to_robot
+# from utils.real_robot_mapper import Panda
+# from utils.move_position import move_to_position
 from utils.calculate_q import calculate_q
 import time
 
-goal_joint_position = np.array([0.14657515533891577, 1.5838447781278373, -1.5818225305216425, -0.38852626337635504, 1.5798191279371578, 3.1866216808557506, 0.8204606715504958])
-Panda().move_to_joint_position(goal_joint_position)
+# goal_joint_position = np.array([0.14657515533891577, 1.5838447781278373, -1.5818225305216425, -0.38852626337635504, 1.5798191279371578, 3.1866216808557506, 0.8204606715504958])
+# Panda().move_to_joint_position(goal_joint_position)
 
 #initial_position = Panda().get_robot_position()
 ##Shake hand
@@ -15,7 +16,7 @@ Panda().move_to_joint_position(goal_joint_position)
 #                          [0, 0, 0, 1]])
 #calculate_q(initial_position, goal_position, 'exp2_2_1', 3, 5, factor =10)
 
-move_to_position('exp2_2_1', 3)
+map_to_robot('exp2_2_1', 3)
 
 time.sleep(2)
 #
@@ -26,4 +27,4 @@ time.sleep(2)
 #                         [0, 0, 0, 1]])
 #calculate_q(initial_position, goal_position, 'exp2_2_2', 3, 5, factor = 10)
 
-move_to_position('exp2_2_2', 3)
+map_to_robot('exp2_2_2', 3)
