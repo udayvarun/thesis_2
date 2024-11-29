@@ -108,7 +108,7 @@ class minimize_dataset:
         # Plot for the state variables
         for i in range(self.q_optimal.shape[1]):
             ax1.plot(time_in_seconds, self.q_optimal[:, i], label=f'State {i+1}')
-        ax1.set_xlabel('Time sec[sec]')
+        ax1.set_xlabel('Time [sec]')
         ax1.set_ylabel('State Variables')
         ax1.grid(True)
         # ax1.set_title('State Variables over Time')
