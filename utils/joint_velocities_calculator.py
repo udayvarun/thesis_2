@@ -11,8 +11,8 @@ folder = (r"data_sets/two_waves")
 files = DataSet(folder, "left").single_dataset()
 
 # joint_angles = np.array(files[0])
-# # file_name = "experiment_data_set/figures/data_set_acceleration_filter.png"
-# file_name = "experiment_data_set/figures/data_set_joint_angles.png"
+# file_name = "experiment_data_set/figures/data_set_acceleration_filter.png"
+# # file_name = "experiment_data_set/figures/data_set_joint_angles.png"
 
 # joint_angles_1 = np.load(f'experiment_data_set/exp3_1_1.npy')
 # joint_angles_2 = np.load(f'experiment_data_set/exp3_1_2.npy')
@@ -61,25 +61,25 @@ fig, ax = plt.subplots(3, 1, figsize=(14, 10), dpi=600)
 
 for i in range(joint_angles.shape[1]):
     ax[0].plot(time_in_seconds, joint_angles[:, i], label=f'Joint {i+1} Angle')
-ax[0].set_title("Joint Angles vs. Time")
-ax[0].set_xlabel("Time (sec)")
-ax[0].set_ylabel("Joint Angle (rad)")
+# ax[0].set_title("Joint Angles vs. Time")
+ax[0].set_xlabel("Time [sec]")
+ax[0].set_ylabel("Joint Angle [rad]")
 ax[0].grid(True)
 ax[0].legend(loc='upper left', bbox_to_anchor=(1, 1))
 
-for i in range(joint_velocities_stack.shape[1]):
-    ax[1].plot(time_in_seconds, joint_velocities_stack[:, i], label=f'Joint {i+1} Velocity')
-ax[1].set_title("Joint Velocities vs. Time")
-ax[1].set_xlabel("Time (sec)")
-ax[1].set_ylabel("Joint Velocity (rad/s)")
+# for i in range(joint_velocities_stack.shape[1]):
+ax[1].plot(time_in_seconds, joint_velocities_stack[:, joint_velocities_stack.shape[1]-1], label=f'Joint 1 - 7 Velocity')
+# ax[1].set_title("Joint Velocities vs. Time")
+ax[1].set_xlabel("Time [sec]")
+ax[1].set_ylabel("Joint Velocity [rad/sec]")
 ax[1].grid(True)
 ax[1].legend(loc='upper left', bbox_to_anchor=(1, 1))
 
-for i in range(joint_accelerations_stack.shape[1]):
-    ax[2].plot(time_in_seconds, joint_accelerations_stack[:, i], label=f'Joint {i+1} Acceleration')
-ax[2].set_title("Joint Accelerations vs. Time")
-ax[2].set_xlabel("Time (sec)")
-ax[2].set_ylabel("Joint Acceleration (rad/s^2)")
+# for i in range(joint_accelerations_stack.shape[1]):
+ax[2].plot(time_in_seconds, joint_accelerations_stack[:, joint_accelerations_stack.shape[1]-1], label=f'Joint 1 - 7 Acceleration')
+# ax[2].set_title("Joint Accelerations vs. Time")
+ax[2].set_xlabel("Time [sec]")
+ax[2].set_ylabel("Joint Acceleration [rad/sec²]")
 ax[2].grid(True)
 ax[2].legend(loc='upper left', bbox_to_anchor=(1, 1))
 
