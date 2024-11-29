@@ -108,10 +108,10 @@ class minimize_dataset:
         # Plot for the state variables
         for i in range(self.q_optimal.shape[1]):
             ax1.plot(time_in_seconds, self.q_optimal[:, i], label=f'State {i+1}')
-        ax1.set_xlabel('Time (sec)')
+        ax1.set_xlabel('Time sec[sec]')
         ax1.set_ylabel('State Variables')
         ax1.grid(True)
-        ax1.set_title('State Variables over Time')
+        # ax1.set_title('State Variables over Time')
         ax1.legend(loc='upper left', bbox_to_anchor=(1, 1))  # Move legend outside
 
         # Plot for the control variables
@@ -120,10 +120,10 @@ class minimize_dataset:
                 ax2.plot(time_in_seconds[:-1], self.u_optimal[:, i], label=f'Control {i+1}')
             else:
                 ax2.plot(time_in_seconds[:-1], self.u_optimal, label=f'Control {i+1}')
-        ax2.set_xlabel('Time (sec)')
+        ax2.set_xlabel('Time [sec]')
         ax2.set_ylabel('Control Variables')
         ax2.grid(True)
-        ax2.set_title('Control Variables over Time')
+        # ax2.set_title('Control Variables over Time')
         ax2.legend(loc='upper left', bbox_to_anchor=(1, 1))  # Move legend outside
 
         plt.tight_layout()
