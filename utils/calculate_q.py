@@ -16,7 +16,6 @@ def calculate_q(initial_position, goal_position, exp_name, runtime, n_components
     generate_pca_file(n_components)
     pca_reload = pk.load(open("./utils/pca.pkl",'rb'))
     pca_components = pca_reload.pca.components_
-    pca_reload.pca_plot(".\experiment_data_set\\figures\pca_plot.png")
     min = minimize_dataset(pca_components, runtime*factor)
 
     q_optimal = min.minimize_function(initial_position, goal_position)

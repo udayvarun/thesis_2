@@ -11,7 +11,7 @@ class Simulation:
         self.env.add(self.panda)
 
     def map_to_robot(self, data, time):
-        q_array = np.load(f'./experiment_data_set/{data}.npy')
+        q_array = np.load(f'./experiment_data_set/simulation/{data}.npy')
         DataSet.joint_angles_plot(q_array)
         dt = 0.01
         for q in q_array:
