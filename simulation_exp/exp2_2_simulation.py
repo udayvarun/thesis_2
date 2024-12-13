@@ -19,13 +19,14 @@ env.map_to_robot('exp0', 10)
 time.sleep(2)
 
 initial_position = env.get_position()
-goal_position = np.array([[0.0305, -0.9993, 0.02121, 0.6728],
-                   [0.9765, 0.02526, -0.2141, 0.05834],
-                   [0.2134, 0.02724, 0.9766, 0.8438],
-                   [0, 0, 0, 1]])
-calculate_q(initial_position, goal_position, 'exp3_1_1', 3 , factor = 10)
+#Shake hand
+goal_position = np.array([[0.9996, 0.02393, -0.01562, 0.5821],
+                         [-0.01083, -0.1883, -0.9821, -0.6462],
+                         [-0.02644, 0.9818, -0.1879, 0.04599],
+                         [0, 0, 0, 1]])
+calculate_q(initial_position, goal_position, 'exp2_2_1', 3, 5, factor = 10)
 
-env.map_to_robot('exp3_1_1', 10)
+env.map_to_robot('exp2_2_1', 10)
 time.sleep(2)
 
 initial_position = env.get_position()
@@ -33,5 +34,6 @@ goal_position = np.array([[-0.03248, -0.2398, 0.9703, 0.919],
                         [-0.01228, -0.9706, -0.2403, -0.09703],
                         [0.9994,-0.01972, 0.02858, 0.4165],
                         [0, 0, 0, 1]])
-calculate_q(initial_position, goal_position, 'exp3_1_2', 3, factor = 10)
-env.map_to_robot('exp3_1_2', 5)
+calculate_q(initial_position, goal_position, 'exp2_2_2', 3, 5, factor = 10)
+
+env.map_to_robot('exp2_2_2', 5)

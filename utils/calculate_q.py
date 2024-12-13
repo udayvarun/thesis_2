@@ -16,14 +16,13 @@ def calculate_q(initial_position, goal_position, exp_name, runtime, n_components
     generate_pca_file(n_components)
     pca_reload = pk.load(open("./utils/pca.pkl",'rb'))
     pca_components = pca_reload.pca.components_
+    pca_reload.pca_plot(".\experiment_data_set\\figures\pca_plot.png")
     min = minimize_dataset(pca_components, runtime*factor)
 
     q_optimal = min.minimize_function(initial_position, goal_position)
-    min.plot_variables()
-
 
     new_q_optimal = interpolate(q_optimal, int(runtime * frequency))
-    np.save(f'./experiment_data_set/{exp_name}.npy', new_q_optimal)
+    np.save(f'./experiment_data_set/simulation/{exp_name}.npy', new_q_optimal)
 
     total_time= time.time()-start_time
     print(f"Total_time = {total_time}")
