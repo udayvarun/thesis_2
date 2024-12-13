@@ -7,7 +7,7 @@ import time
 
 env = Simulation()
 
-env.map_to_robot('exp3_2_1', 10)
+env.map_to_robot('exp2_2_1', 10)
 time.sleep(2)
 
-env.map_to_robot('exp3_2_2', 5)
+env.map_to_robot('exp2_2_2', 5)
